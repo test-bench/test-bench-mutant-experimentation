@@ -76,6 +76,10 @@ module Mutant
             cls = ObjectSpace.each_object(Module).find do |mod|
               mod.singleton_class.equal?(cls)
             end
+
+            scope_symbol = '.'
+          else
+            scope_symbol = '#'
           end
 
           class_name = cls.name
@@ -84,7 +88,12 @@ module Mutant
 
           return if toplevel_namespace == 'TestBench'
 
-          method_text = "#{class_name}##{trace_point.method_id}"
+          method_text = [
+            class_name,           # SomeNamespace::SomeClass
+            scope_symbol,         #                         .
+            trace_point.method_id #                          some_method
+          ]
+          method_text = "#{class_name}#{scope_symbol}#{trace_point.method_id}"
 
           unless traced_methods.include?(method_text)
             traced_methods << method_text
