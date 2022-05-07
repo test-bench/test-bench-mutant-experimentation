@@ -20,6 +20,12 @@ Run tests with RSpec:
 > bundle exec rspec
 ```
 
+Run tests with Minitest:
+
+``` sh
+> ruby minitest/run.rb
+```
+
 IRB console:
 
 ``` sh
