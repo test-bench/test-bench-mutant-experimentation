@@ -49,5 +49,5 @@ Minitest:
 Test Bench:
 
 ``` sh
-> ./test.sh
+> ./test.sh testbench
 ```

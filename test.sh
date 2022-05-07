@@ -2,7 +2,7 @@
 
 set -eu -o pipefail
 
-TEST_FRAMEWORK=${1:-test_bench}
+TEST_FRAMEWORK=${1:-testbench}
 
 echo
 echo "Mutation Test"
