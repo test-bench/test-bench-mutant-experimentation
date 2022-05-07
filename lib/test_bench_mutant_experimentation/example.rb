@@ -6,7 +6,6 @@ module TestBenchMutantExperimentation
     end
     attr_writer :logger
 
-    # mutant:disable
     def clock
       @clock ||= Clock::Substitute.build
     end
