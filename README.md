@@ -8,10 +8,16 @@ Install gem dependencies:
 > ./install-gems.sh
 ```
 
-Run tests:
+Run tests with TestBench:
 
 ``` sh
 > bundle exec bench
+```
+
+Run tests with RSpec:
+
+``` sh
+> bundle exec rspec
 ```
 
 IRB console:
