@@ -51,3 +51,12 @@ Test Bench:
 ``` sh
 > ./test.sh testbench
 ```
+
+## Notes
+
+- Even though the tests don't cause
+  `TestBenchMutantExperimentation::Example.build` to be called, it is still
+  subjected to mutation testing
+
+- Method call tracing is naive; it only filters out TestBench method calls
+  - It probably needs to filter out all installed gems
