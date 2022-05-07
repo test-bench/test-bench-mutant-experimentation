@@ -3,7 +3,7 @@
 set -eu
 
 irb \
-  -r ./test/test_init.rb \
+  -r ./test_bench/test_init.rb \
   --readline \
   --prompt simple \
   $@
