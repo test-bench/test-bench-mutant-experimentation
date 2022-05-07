@@ -1,7 +1,14 @@
 #!/bin/sh
 
-ruby \
-  --disable-gems \
-  --enable-frozen-string-literal \
-  test/automated.rb \
-  $@
+set -eu -o pipefail
+
+TEST_FRAMEWORK=${1:-test_bench}
+
+echo
+echo "Mutation Test"
+echo "= = ="
+echo
+echo "Framework: $TEST_FRAMEWORK"
+echo
+
+bundle exec mutant run --include lib --require test_bench_mutant_experimentation --use $TEST_FRAMEWORK -- 'TestBenchMutantExperimentation*'

@@ -1,6 +1,8 @@
 require_relative 'minitest_init'
 
 class ExampleTest < Minitest::Test
+  cover TestBenchMutantExperimentation
+
   def setup
     @now = Time.utc(2000, 1, 1, 11, 11, 11)
 

@@ -1,1 +1,1 @@
-require_relative '../test/test_init'
+require_relative '../test_bench/test_init'

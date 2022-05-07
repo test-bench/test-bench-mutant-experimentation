@@ -1,15 +1,18 @@
 module TestBenchMutantExperimentation
   class Example
+    # mutant:disable
     def logger
       @logger ||= ::Logger.new(STDERR)
     end
     attr_writer :logger
 
+    # mutant:disable
     def clock
       @clock ||= Clock::Substitute.build
     end
     attr_writer :clock
 
+    # mutant:disable
     def self.build
       instance = new
       Clock.configure(instance)
@@ -17,15 +20,15 @@ module TestBenchMutantExperimentation
     end
 
     def call(number)
-      logger.debug { "Calculating result (Number: #{number.inspect})" }
+      #logger.debug { "Calculating result (Number: #{number.inspect})" }
 
       result = String.new
 
-      if number % 3 == 0
+      if (number % 3).zero?
         result << "Fizz"
       end
 
-      if number % 5 == 0
+      if (number % 5).zero?
         result << "Buzz"
       end
 
@@ -35,7 +38,7 @@ module TestBenchMutantExperimentation
         result << now.iso8601
       end
 
-      logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
+      #logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
 
       result
     end

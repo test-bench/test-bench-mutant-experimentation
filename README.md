@@ -11,7 +11,7 @@ Install gem dependencies:
 Run tests with TestBench:
 
 ``` sh
-> bundle exec bench
+> bundle exec bench test_bench/automated
 ```
 
 Run tests with RSpec:
@@ -23,11 +23,31 @@ Run tests with RSpec:
 Run tests with Minitest:
 
 ``` sh
-> ruby minitest/run.rb
+> ruby test/run.rb
 ```
 
 IRB console:
 
 ``` sh
 > ./console.sh
+```
+
+## Running Mutant
+
+RSpec:
+
+``` sh
+> ./test.sh rspec
+```
+
+Minitest:
+
+``` sh
+> ./test.sh minitest
+```
+
+Test Bench:
+
+``` sh
+> ./test.sh
 ```
