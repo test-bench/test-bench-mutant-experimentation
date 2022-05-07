@@ -1,3 +1,5 @@
+require 'logger'
+
 require 'test_bench'
 
 require 'mutant/integration/testbench/testbench'

@@ -2,8 +2,13 @@ module Mutant
   class Integration
     class Testbench
       class TraceMethodCalls
+        def logger
+          @logger ||= Logger.new(STDERR)
+        end
+        attr_writer :logger
+
         def session
-          @session ||= TestBench::Session.build
+          @session ||= Adapter.session
         end
         attr_writer :session
 
@@ -33,6 +38,8 @@ module Mutant
             TestBench::Run.(session: session) do |run|
               TracePoint.trace(:call) do |trace_point|
                 trace_point(trace_point) do |method_text|
+                  logger.info { "Traced method call: #{method_text.inspect}" }
+
                   writer.puts(method_text)
                 end
               end

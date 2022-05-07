@@ -44,8 +44,16 @@ module Mutant
           end
         end
 
+        def self.session
+          TestBench::Session.build.tap do |session|
+            null_output = TestBench::Fixture::Output::Null.new
+
+            session.output = null_output
+          end
+        end
+
         def run(mutant_test_batch)
-          session = TestBench::Session.build
+          session = self.class.session
 
           start_time = ::Time.now
 
