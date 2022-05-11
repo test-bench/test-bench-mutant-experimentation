@@ -1,6 +1,5 @@
 module TestBenchMutantExperimentation
   class Example
-    # mutant:disable
     def logger
       @logger ||= ::Logger.new(STDERR)
     end
@@ -11,7 +10,6 @@ module TestBenchMutantExperimentation
     end
     attr_writer :clock
 
-    # mutant:disable
     def self.build
       instance = new
       Clock.configure(instance)
@@ -19,6 +17,7 @@ module TestBenchMutantExperimentation
     end
 
     def call(number)
+      ## Uncomment when logger calls can be filtered - Wed May 11 2022
       #logger.debug { "Calculating result (Number: #{number.inspect})" }
 
       result = String.new
@@ -37,6 +36,7 @@ module TestBenchMutantExperimentation
         result << now.iso8601
       end
 
+      ## Uncomment when logger calls can be filtered - Wed May 11 2022
       #logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
 
       result

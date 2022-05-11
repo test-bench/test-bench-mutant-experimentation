@@ -3,9 +3,11 @@ module Mutant
     class Testbench
       class Adapter
         attr_reader :mutant_tests
+        attr_reader :mutant_subjects
 
-        def initialize(mutant_tests)
+        def initialize(mutant_tests, mutant_subjects)
           @mutant_tests = mutant_tests
+          @mutant_subjects = mutant_subjects
         end
 
         def self.build(mutant_integration, *paths)
@@ -14,20 +16,20 @@ module Mutant
             paths = ["test_bench/automated/example.rb"]
           end
 
-          mutant_expressions = []
+          mutant_subjects = []
 
           mutant_expression_parser = mutant_integration.expression_parser
 
           TraceMethodCalls.(paths) do |method_text|
-            maybe_mutant_expression = mutant_expression_parser.(method_text)
-            mutant_expression = maybe_mutant_expression.from_right
+            maybe_mutant_subject = mutant_expression_parser.(method_text)
+            mutant_subject = maybe_mutant_subject.from_right
 
-            mutant_expressions << mutant_expression
+            mutant_subjects << mutant_subject
           end
 
-          mutant_tests = mutant_tests(paths, mutant_expressions)
+          mutant_tests = mutant_tests(paths, mutant_subjects)
 
-          new(mutant_tests)
+          new(mutant_tests, mutant_subjects)
         end
 
         def self.mutant_tests(paths, mutant_expressions)
