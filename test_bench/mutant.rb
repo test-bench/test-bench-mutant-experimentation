@@ -8,24 +8,25 @@ test_paths = ["test_bench/automated/example.rb"]
 ## Build a coverage map for the given test paths
 Mutant::Integration::Testbench.build_coverage_map(test_paths)
 
-## Instantiate mutant configuration
+## Target behavior is equivalent to bundle exec mutant run -- TestBenchMutantExperimentation*
+subject_specifier = "TestBenchMutantExperimentation*"
+
+## Convert the subject specifier into a mutant expression
+mutant_expression_parser = Mutant::Config::DEFAULT.expression_parser
+maybe_mutant_expression = mutant_expression_parser.(subject_specifier)
+mutant_expression = maybe_mutant_expression.from_right
+
+## Create a mutant matcher config with the mutant expression added to the matcher's subjects
+mutant_matcher_config = Mutant::Matcher::Config::DEFAULT
+mutant_matcher_config = mutant_matcher_config.add(:subjects, mutant_expression)
+
+## Instantiate mutant configuration with the matcher config
 mutant_config = Mutant::Config.env.with(
   includes: ['lib'],
   requires: ['test_bench_mutant_experimentation'],
-  integration: 'testbench'
+  integration: 'testbench',
+  matcher: mutant_matcher_config
 )
-
-## Append each invoked method to mutant matcher's subjects
-mutant_matcher = mutant_config.matcher
-
-Mutant::Integration::Testbench.coverage_map.each_method_specifier do |method_specifier|
-  maybe_mutant_subject = mutant_config.expression_parser.(method_specifier)
-  mutant_subject = maybe_mutant_subject.from_right
-
-  mutant_matcher.add(:subjects, mutant_subject)
-end
-
-mutant_config = mutant_config.with(matcher: mutant_matcher)
 
 ## Build a mutant environment from the mutant configuration
 maybe_mutant_env = Mutant::Bootstrap.(Mutant::WORLD, mutant_config)
