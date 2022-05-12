@@ -22,7 +22,7 @@ module Mutant
 
         Testbench.coverage_map.each_test_file do |test_file, method_specifiers|
           mutant_expressions = method_specifiers.map do |method_specifier|
-            maybe_mutant_expression = mutant_integration.expression_parser.(method_specifier)
+            maybe_mutant_expression = expression_parser.(method_specifier)
             maybe_mutant_expression.from_right
           end
 
