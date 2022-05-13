@@ -33,5 +33,4 @@ mutant_env = maybe_mutant_env.from_right
 
 Mutant::Runner.(mutant_env)
 
-puts File.read("/tmp/mutant.log")
-File.unlink("/tmp/mutant.log")
+Mutant::Integration::Testbench.dump_log

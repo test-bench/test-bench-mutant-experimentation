@@ -17,6 +17,23 @@ module Mutant
         @coverage_map
       end
 
+      def self.log_path
+        'tmp/mutant.log'
+      end
+
+      def self.log(text)
+        File.open(log_path, 'a') do |log|
+          log.puts text
+        end
+      end
+
+      def self.dump_log
+        File.open(log_path) do |log|
+          puts log.gets until log.eof?
+        end
+        File.unlink(log_path)
+      end
+
       def all_tests
         mutant_tests = []
 
@@ -38,8 +55,6 @@ module Mutant
 
         start_time = ::Time.now
 
-        log = File.open("/tmp/mutant.log", "a")
-
         TestBench::Run.(session: session) do |run|
           mutant_test_batch.each do |mutant_test|
             test_file = mutant_test.id
@@ -50,7 +65,7 @@ module Mutant
             rescue StandardError
             end
 
-            log.puts("#{test_file} (PID: #{Process.pid}, Passed: #{!session.failed?})")
+            Testbench.log("#{test_file} (PID: #{Process.pid}, Passed: #{!session.failed?})")
           end
         end
 
@@ -60,8 +75,6 @@ module Mutant
         elapsed_time = stop_time - start_time
 
         Result::Test.new(passed:, runtime: elapsed_time)
-      ensure
-        log.close
       end
 
       def self.session
