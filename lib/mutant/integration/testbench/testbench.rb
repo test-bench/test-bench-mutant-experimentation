@@ -65,7 +65,7 @@ module Mutant
             rescue StandardError
             end
 
-            Testbench.log("#{test_file} (PID: #{Process.pid}, Passed: #{!session.failed?})")
+            Testbench.log("Mutation finished (File: %s, PID: %d, Passed: %s)" % [test_file, Process.pid, !session.failed?])
           end
         end
 
