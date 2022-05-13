@@ -38,6 +38,8 @@ module Mutant
 
         start_time = ::Time.now
 
+        log = File.open("/tmp/mutant.log", "a")
+
         TestBench::Run.(session: session) do |run|
           mutant_test_batch.each do |mutant_test|
             test_file = mutant_test.id
@@ -47,6 +49,8 @@ module Mutant
             ## Determine if this needs to rescue all Exception types - Sat May 07 2022
             rescue StandardError
             end
+
+            log.puts("#{test_file} (PID: #{Process.pid}, Passed: #{!session.failed?})")
           end
         end
 
@@ -56,12 +60,14 @@ module Mutant
         elapsed_time = stop_time - start_time
 
         Result::Test.new(passed:, runtime: elapsed_time)
+      ensure
+        log.close
       end
 
       def self.session
         TestBench::Session.build.tap do |session|
-          #output = TestBench::Fixture::Output::Null.new
-          output = TestBench::Output.build
+          output = TestBench::Fixture::Output::Null.new
+          #output = TestBench::Output.build
 
           session.output = output
         end

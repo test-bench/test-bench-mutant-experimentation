@@ -1,6 +1,16 @@
 require_relative 'automated_init'
 
 context "Example" do
+  value = Example.value
+
+  test do
+    assert(value.nil?)
+  end
+end
+__END__
+require_relative 'automated_init'
+
+context "Example" do
   example = Example.new
 
   now = Time.utc(2000, 1, 1, 11, 11, 11)

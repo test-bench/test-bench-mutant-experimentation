@@ -32,3 +32,6 @@ maybe_mutant_env = Mutant::Bootstrap.(Mutant::WORLD, mutant_config)
 mutant_env = maybe_mutant_env.from_right
 
 Mutant::Runner.(mutant_env)
+
+puts File.read("/tmp/mutant.log")
+File.unlink("/tmp/mutant.log")
