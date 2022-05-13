@@ -27,7 +27,7 @@ module Mutant
           end
 
           mutant_test = Test.new(id: test_file, expressions: mutant_expressions)
-          mutant_tests << mutant_tests
+          mutant_tests << mutant_test
         end
 
         mutant_tests
@@ -60,9 +60,10 @@ module Mutant
 
       def self.session
         TestBench::Session.build.tap do |session|
-          null_output = TestBench::Fixture::Output::Null.new
+          #output = TestBench::Fixture::Output::Null.new
+          output = TestBench::Output.build
 
-          session.output = null_output
+          session.output = output
         end
       end
     end

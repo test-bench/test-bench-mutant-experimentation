@@ -54,7 +54,7 @@ context "Example" do
 
     result = example.(number)
 
-    comment result
+    comment result.inspect
     detail "Control: #{control_result.inspect}"
 
     test do
