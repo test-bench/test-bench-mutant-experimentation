@@ -1,7 +1,5 @@
 require_relative 'automated_init'
 
-require_relative 'automated_init'
-
 context "Example" do
   example = Example.new
 
