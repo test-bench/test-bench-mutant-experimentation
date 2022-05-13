@@ -24,7 +24,8 @@ mutant_config = Mutant::Config.env.with(
   includes: ['lib'],
   requires: ['test_bench_mutant_experimentation'],
   integration: 'testbench',
-  matcher: mutant_matcher_config
+  matcher: mutant_matcher_config,
+  coverage_criteria: Mutant::Config::CoverageCriteria::DEFAULT
 )
 
 ## Build a mutant environment from the mutant configuration

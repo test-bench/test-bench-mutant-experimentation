@@ -1,13 +1,5 @@
 require_relative 'automated_init'
 
-context "Example" do
-  value = Example.value
-
-  test do
-    assert(value.nil?)
-  end
-end
-__END__
 require_relative 'automated_init'
 
 context "Example" do

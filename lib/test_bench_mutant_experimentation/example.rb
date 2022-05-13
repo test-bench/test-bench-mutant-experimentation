@@ -1,11 +1,4 @@
 module TestBenchMutantExperimentation
-  module Example
-    def self.value
-    end
-  end
-end
-__END__
-module TestBenchMutantExperimentation
   class Example
     def logger
       @logger ||= ::Logger.new(STDERR)

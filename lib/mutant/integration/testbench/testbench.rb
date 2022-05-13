@@ -18,20 +18,30 @@ module Mutant
       end
 
       def self.log_path
-        'tmp/mutant.log'
+        '/tmp/mutant.log'
+      end
+
+      def self.open_log(&block)
+        unless ENV['DEBUG'] == 'on'
+          return
+        end
+
+        File.open(log_path, 'a+', &block)
       end
 
       def self.log(text)
-        File.open(log_path, 'a') do |log|
+        open_log do |log|
           log.puts text
         end
       end
 
       def self.dump_log
-        File.open(log_path) do |log|
+        open_log do |log|
+          log.rewind
           puts log.gets until log.eof?
         end
-        File.unlink(log_path)
+
+        File.unlink(log_path) if File.exist?(log_path)
       end
 
       def all_tests
