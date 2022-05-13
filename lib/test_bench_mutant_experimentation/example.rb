@@ -36,10 +36,17 @@ module TestBenchMutantExperimentation
         result << now.iso8601
       end
 
+      SomeQueryObject.()
+
       ## Uncomment when logger calls can be filtered - Wed May 11 2022
       #logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
 
       result
+    end
+
+    class SomeQueryObject
+      def self.call
+      end
     end
   end
 end

@@ -87,10 +87,15 @@ module Mutant
         Result::Test.new(passed:, runtime: elapsed_time)
       end
 
-      def self.session
+      def self.session(output: nil)
+        output ||= false
+
         TestBench::Session.build.tap do |session|
-          output = TestBench::Fixture::Output::Null.new
-          #output = TestBench::Output.build
+          if output
+            output = TestBench::Output.build
+          else
+            output = TestBench::Fixture::Output::Null.new
+          end
 
           session.output = output
         end

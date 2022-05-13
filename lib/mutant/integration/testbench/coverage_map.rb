@@ -62,7 +62,7 @@ module Mutant
           def call(&block)
             reader, writer = IO.pipe
 
-            session = Testbench.session
+            session = Testbench.session(output: true)
 
             child_process = fork do
               reader.close

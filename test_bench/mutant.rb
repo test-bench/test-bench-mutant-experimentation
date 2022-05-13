@@ -19,11 +19,15 @@ Mutant::Integration::Testbench.coverage_map.each_method_specifier do |method_spe
   mutant_matcher_config = mutant_matcher_config.add(:subjects, mutant_expression)
 end
 
+## Mutant reporter
+mutant_reporter = Mutant::Integration::Testbench::Reporter.build(STDOUT)
+
 ## Instantiate mutant configuration with the matcher config
 mutant_config = Mutant::Config.env.with(
   includes: ['lib'],
   requires: ['test_bench_mutant_experimentation'],
   integration: 'testbench',
+  reporter: mutant_reporter,
   matcher: mutant_matcher_config,
   coverage_criteria: Mutant::Config::CoverageCriteria::DEFAULT
 )
