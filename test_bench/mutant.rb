@@ -32,9 +32,7 @@ mutant_config = Mutant::Config.env.with(
   coverage_criteria: Mutant::Config::CoverageCriteria::DEFAULT
 )
 
-## Build a mutant environment from the mutant configuration
-maybe_mutant_env = Mutant::Bootstrap.(Mutant::WORLD, mutant_config)
-mutant_env = maybe_mutant_env.from_right
+mutant_env = Mutant::Env.empty(Mutant::WORLD, mutant_config)
 
 Mutant::Runner.(mutant_env)
 
