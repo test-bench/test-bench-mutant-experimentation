@@ -34,7 +34,7 @@ module Mutant
           Printer.call(output, env)
 
           if env.success?
-            puts "\e[1;33mMutation tests passed\e[39;22m"
+            puts "\e[1;32mMutation tests passed\e[39;22m"
           else
             puts "\e[1;31mMutation tests failed\e[39;22m"
           end
