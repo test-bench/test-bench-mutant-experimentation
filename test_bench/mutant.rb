@@ -24,16 +24,16 @@ end
 mutant_reporter = Mutant::Integration::Testbench::Reporter.build(STDOUT)
 
 ## Instantiate mutant configuration with the matcher config
-mutant_config = Mutant::Config.env.with(
-  includes: ['lib'],
-  requires: ['test_bench_mutant_experimentation'],
-  integration: 'testbench',
+mutant_env = Mutant::Env.empty(Mutant::WORLD, Mutant::Config::DEFAULT)
+
+mutant_config = Mutant::Config.load_config_file(mutant_env).from_right.with(
   reporter: mutant_reporter,
-  matcher: mutant_matcher_config,
-  coverage_criteria: Mutant::Config::CoverageCriteria::DEFAULT
+  matcher: mutant_matcher_config
 )
 
-mutant_env = Mutant::Env.empty(Mutant::WORLD, mutant_config)
+mutant_config = Mutant::Config.env.merge(mutant_config)
+mutant_env = mutant_env.with(config: mutant_config)
+
 mutant_env = Mutant::Bootstrap.(mutant_env).from_right
 
 Mutant::Runner.(mutant_env)

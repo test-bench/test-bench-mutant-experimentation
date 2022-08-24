@@ -6,4 +6,5 @@ requires:
 - test_bench_mutant_experimentation
 mutation:
   ignore_patterns:
-  - send{receiver=send{selector=logger}}
+  - block { receiver = send { selector = (trace,debug,info,warn,error,fatal) } }
+  - send { selector = (trace,debug,info,warn,error,fatal) }

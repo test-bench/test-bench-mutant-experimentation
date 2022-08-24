@@ -66,7 +66,7 @@ module Mutant
 
         start_time = ::Time.now
 
-        TestBench::Run.(session: session) do |run|
+        TestBench::Run.(session:) do |run|
           mutant_test_batch.each do |mutant_test|
             test_file = mutant_test.id
 
@@ -88,18 +88,10 @@ module Mutant
         Result::Test.new(passed:, runtime: elapsed_time)
       end
 
-      def self.session(output: nil)
-        output ||= false
+      def self.session
+        output = TestBench::Fixture::Output::Null.new
 
-        TestBench::Session.build.tap do |session|
-          if output
-            output = TestBench::Output.build
-          else
-            output = TestBench::Fixture::Output::Null.new
-          end
-
-          session.output = output
-        end
+        TestBench::Session.build(output:)
       end
     end
   end
