@@ -1,0 +1,9 @@
+---
+includes:
+- lib
+integration: testbench
+requires:
+- test_bench_mutant_experimentation
+mutation:
+  ignore_patterns:
+  - send{receiver=send{selector=logger}}

@@ -9,12 +9,13 @@ module Mutant
     ##
     ## - Sat May 07 2022
     class Testbench < self
-      def self.build_coverage_map(test_paths)
-        @coverage_map = CoverageMap::Capture.(test_paths)
+      def self.coverage_map
+        ## Would need to be test/automated to match TestBench default
+        @coverage_map ||= build_coverage_map("test_bench/automated")
       end
 
-      def self.coverage_map
-        @coverage_map
+      def self.build_coverage_map(test_paths)
+        @coverage_map = CoverageMap::Capture.(test_paths)
       end
 
       def self.log_path
