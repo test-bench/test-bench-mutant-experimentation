@@ -42,23 +42,8 @@ module Mutant
           end
         end
 
-        class Capture
-          attr_reader :test_paths
-
-          def initialize(test_paths)
-            @test_paths = test_paths
-          end
-
-          def self.build(test_paths)
-            new(test_paths)
-          end
-
+        module Capture
           def self.call(test_paths, &block)
-            instance = build(test_paths)
-            instance.(&block)
-          end
-
-          def call(&block)
             coverage_map = CoverageMap.new
 
             TestBench::DetectCoverage.(*test_paths) do |invocation|
