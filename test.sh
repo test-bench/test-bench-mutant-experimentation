@@ -11,17 +11,19 @@ echo
 echo "Framework: $TEST_FRAMEWORK"
 echo
 
-echo "List Tests"
-echo "- - -"
-echo
-
 if [ $TEST_FRAMEWORK = "test_bench" ]; then
   list_test_framework="testbench"
 else
   list_test_framework=$TEST_FRAMEWORK
 fi
 
-bundle exec mutant environment test list --include lib --require test_bench_mutant_experimentation --use $list_test_framework || true
+if [ $TEST_FRAMEWORK != "test_bench" ]; then
+  echo "List Tests"
+  echo "- - -"
+  echo
+
+  bundle exec mutant environment test list --include lib --require test_bench_mutant_experimentation --use $list_test_framework
+fi
 
 echo
 echo "Running Tests"
