@@ -7,7 +7,7 @@ require 'mutant/integration/testbench'
 test_paths = ["test_bench/automated/example.rb"]
 
 ## Build a coverage map for the given test paths
-Mutant::Integration::Testbench.build_coverage_map(test_paths)
+coverage_map = Mutant::Integration::Testbench.build_coverage_map(test_paths)
 
 ## Specify all covered methods as the subjects
 mutant_matcher_config = Mutant::Matcher::Config::DEFAULT
@@ -34,6 +34,7 @@ mutant_config = Mutant::Config.env.with(
 )
 
 mutant_env = Mutant::Env.empty(Mutant::WORLD, mutant_config)
+mutant_env = Mutant::Bootstrap.(mutant_env).from_right
 
 Mutant::Runner.(mutant_env)
 
