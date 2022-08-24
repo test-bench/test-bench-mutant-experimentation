@@ -23,7 +23,10 @@ module Mutant
           end
         end
 
-        def method_invoked(method_specifier, test_file)
+        def method_invoked(invocation)
+          method_specifier = invocation.method_specifier
+          test_file = invocation.test_file
+
           method_specifier_index[method_specifier] << test_file
 
           test_file_index[test_file] << method_specifier
@@ -40,10 +43,6 @@ module Mutant
         end
 
         class Capture
-          def coverage_map
-            @coverage_map ||= CoverageMap.new
-          end
-
           attr_reader :test_paths
 
           def initialize(test_paths)
@@ -60,98 +59,13 @@ module Mutant
           end
 
           def call(&block)
-            reader, writer = IO.pipe
+            coverage_map = CoverageMap.new
 
-            session = Testbench.session(output: true)
-
-            child_process = fork do
-              reader.close
-
-              TestBench::Run.(session: session) do |run|
-                current_test_file = nil
-
-                TracePoint.trace(:call) do |trace_point|
-                  trace_point(trace_point) do |method_specifier|
-                    data = { test_file: current_test_file, method_specifier: method_specifier }
-
-                    text = JSON.generate(data)
-                    writer.puts(text)
-                  end
-                end
-
-                test_paths.each do |test_path|
-                  if File.directory?(test_path)
-                    test_files = Dir[File.join(test_path, '**', '*.rb')]
-                  else
-                    test_files = [test_path]
-                  end
-
-                  test_files.each do |test_file|
-                    current_test_file = test_file
-
-                    run.file(test_file)
-                  end
-                end
-
-                writer.puts
-
-              ensure
-                writer.close
-              end
+            TestBench::DetectCoverage.(*test_paths) do |invocation|
+              coverage_map.method_invoked(invocation)
             end
-
-            writer.close
-
-            until reader.eof?
-              text = reader.gets.chomp
-
-              break if text.empty?
-
-              data = JSON.parse(text, symbolize_names: true)
-
-              method_specifier = data.fetch(:method_specifier)
-              test_file = data.fetch(:test_file)
-
-              coverage_map.method_invoked(method_specifier, test_file)
-            end
-
-            Process.wait(child_process)
 
             coverage_map
-          end
-
-          def trace_point(trace_point, &block)
-            path = trace_point.path
-
-            lib_dir = File.expand_path('lib')
-            return unless path.start_with?(lib_dir)
-
-            cls = trace_point.defined_class
-
-            if cls.singleton_class?
-              cls = ObjectSpace.each_object(Module).find do |mod|
-                mod.singleton_class.equal?(cls)
-              end
-
-              scope_symbol = '.'
-            else
-              scope_symbol = '#'
-            end
-
-            class_name = cls.name
-
-            toplevel_namespace, * = class_name.split('::')
-
-            return if toplevel_namespace == 'TestBench'
-
-            method_specifier = [
-              class_name,           # SomeNamespace::SomeClass
-              scope_symbol,         #                         .
-              trace_point.method_id #                          some_method
-            ]
-            method_specifier = "#{class_name}#{scope_symbol}#{trace_point.method_id}"
-
-            block.(method_specifier)
           end
         end
       end

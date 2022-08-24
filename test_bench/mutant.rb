@@ -1,5 +1,6 @@
 require_relative '../load_path'
 
+require 'rubygems'
 require 'mutant'
 require 'mutant/integration/testbench'
 

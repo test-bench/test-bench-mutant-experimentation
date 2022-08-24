@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'test_bench'
+gem 'test_bench-detect_coverage'
 gem 'rspec'
 gem 'minitest'
 gem 'mutant'

@@ -21,7 +21,7 @@ else
   list_test_framework=$TEST_FRAMEWORK
 fi
 
-bundle exec mutant environment test list --include lib --require test_bench_mutant_experimentation --use $list_test_framework
+bundle exec mutant environment test list --include lib --require test_bench_mutant_experimentation --use $list_test_framework || true
 
 echo
 echo "Running Tests"
