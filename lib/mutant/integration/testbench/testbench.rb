@@ -62,7 +62,9 @@ module Mutant
       end
 
       def call(mutant_test_batch)
-        session = Testbench.session
+        #output = TestBench::Fixture::Output::Null.new
+        output = TestBench::Output.build
+        session = TestBench::Session.build(output:)
 
         start_time = ::Time.now
 
@@ -86,12 +88,6 @@ module Mutant
         elapsed_time = stop_time - start_time
 
         Result::Test.new(passed:, runtime: elapsed_time)
-      end
-
-      def self.session
-        output = TestBench::Fixture::Output::Null.new
-
-        TestBench::Session.build(output:)
       end
     end
   end
