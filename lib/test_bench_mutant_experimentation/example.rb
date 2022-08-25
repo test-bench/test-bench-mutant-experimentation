@@ -7,6 +7,8 @@ module TestBenchMutantExperimentation
     end
     attr_writer :clock
 
+    ## Remove this comment when TestBench integration works
+    # mutant:disable
     def self.build
       instance = new
       Clock.configure(instance)
@@ -14,7 +16,8 @@ module TestBenchMutantExperimentation
     end
 
     def call(number)
-      logger.debug { "Calculating result (Number: #{number.inspect})" }
+      ## Uncomment when ignore patterns work
+      #logger.debug { "Calculating result (Number: #{number.inspect})" }
 
       result = String.new
 
@@ -32,7 +35,8 @@ module TestBenchMutantExperimentation
         result << now.iso8601
       end
 
-      logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
+      ## Uncomment when ignore patterns work
+      #logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
 
       result
     end
