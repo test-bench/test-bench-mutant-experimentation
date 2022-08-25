@@ -96,4 +96,3 @@ module Mutant
     end
   end
 end
-
