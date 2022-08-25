@@ -7,4 +7,4 @@ requires:
 mutation:
   ignore_patterns:
   - block { receiver = send { selector = (trace,debug,info,warn,error,fatal) } }
-  - send { selector = (trace,debug,info,warn,error,fatal) }
+  - send { selector = (trace,debug,info,warn,error,fatal) receiver = send { selector = logger } }

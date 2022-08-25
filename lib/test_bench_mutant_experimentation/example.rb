@@ -1,9 +1,6 @@
 module TestBenchMutantExperimentation
   class Example
-    def logger
-      @logger ||= ::Logger.new(STDERR)
-    end
-    attr_writer :logger
+    include Logger
 
     def clock
       @clock ||= Clock::Substitute.build
