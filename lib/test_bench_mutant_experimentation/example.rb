@@ -16,8 +16,7 @@ module TestBenchMutantExperimentation
     end
 
     def call(number)
-      ## Uncomment when ignore patterns work
-      #logger.debug { "Calculating result (Number: #{number.inspect})" }
+      logger.debug { "Calculating result (Number: #{number.inspect})" }
 
       result = String.new
 
@@ -35,8 +34,7 @@ module TestBenchMutantExperimentation
         result << now.iso8601
       end
 
-      ## Uncomment when ignore patterns work
-      #logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
+      logger.info { "Calculated result (Number: #{number.inspect}, Result: #{result.inspect})" }
 
       result
     end
