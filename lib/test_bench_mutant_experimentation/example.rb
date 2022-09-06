@@ -7,7 +7,7 @@ module TestBenchMutantExperimentation
     end
     attr_writer :clock
 
-    ## Remove this comment when TestBench integration works
+    ## Needed for rspec/minitest
     # mutant:disable
     def self.build
       instance = new
